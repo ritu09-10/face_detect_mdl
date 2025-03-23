@@ -94,8 +94,6 @@ print("Model Output:", yhat)
 - **OpenCV**: Image processing
 - **NumPy & Matplotlib**: Data handling and visualization
 
-## 📜 License
-This project is licensed under the MIT License.
 
 ---
 💡 **Contributions & Feedback**: Feel free to fork, contribute, or report issues!
