@@ -1,70 +1,89 @@
-# face_detect_mdl
 # Face Detection Model
 
 This repository contains a deep learning-based face detection model implemented using TensorFlow and Keras. The model is trained on a dataset to detect faces and predict their bounding boxes.
 
 ## Features
+
 - Uses a convolutional neural network (CNN) for face detection.
 - Detects faces in images and returns bounding box coordinates.
 - Implements real-time face detection (if running on a local system).
 - Supports training and inference on **Google Colab** and **Jupyter Notebook**.
 
 ## Installation
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/your-username/face-detection-model.git
-   cd face-detection-model
-2. Install the required dependencies:
-   pip install -r requirements.txt
-   
-4. (Optional) Enable GPU acceleration for better performance.
 
-Dataset
-Ensure that your dataset is correctly structured and preprocessed. The model expects images of size 224x224 with three color channels.
+### 1. Clone this repository:
 
-Training
-To train the model, run:
+```bash
+git clone https://github.com/your-username/face-detection-model.git
+cd face-detection-model
+```
 
-python
-Copy
-Edit
-hist = facetracker.fit(dataset, epochs=40, validation_data=val_dataset, callbacks=[tensorboard_callback])
-Make sure that:
+### 2. Install Dependencies
 
-The dataset is properly defined and loaded.
+After navigating into the project directory, install the required dependencies using:
 
-The model is compiled before training.
+```bash
+pip install -r requirements.txt
+```
 
-Inference
-For making predictions, use:
+This ensures all necessary Python libraries (TensorFlow, Keras, OpenCV, etc.) are installed.
 
-python
-Copy
-Edit
-yhat = facetracker.predict(test_sample)
-Ensure that the input shape matches the expected dimensions (224, 224, 3).
+## Running the Model
 
-Troubleshooting
-If using Google Colab, ensure that the dataset is correctly uploaded.
+### A. Training the Model
 
-Check for mismatched input dimensions if an error occurs.
+To train the model, run the following script:
 
-If running on Colab, note that direct webcam access is not supported.
+```bash
+python train.py
+```
 
-Contributors
-Your Name – GitHub Profile
+- Ensure your dataset is correctly formatted and available in the appropriate directory.
+- Modify hyperparameters in `config.py` if needed.
 
-License
-This project is licensed under the MIT License.
+### B. Running Inference
 
-vbnet
-Copy
-Edit
+For testing on an image, use:
 
-Just replace **"your-username"** with your actual GitHub username before uploading! 🚀 Let me know if you need any changes! 😊
+```bash
+python detect_faces.py --image sample.jpg
+```
 
+For real-time webcam detection (if running locally):
 
+```bash
+python detect_faces.py --webcam
+```
 
+*(Note: Webcam access is not supported on Google Colab.)*
 
+## Running on Google Colab
+
+If you are running this project on **Google Colab**, upload your dataset and execute the notebook:
+
+```bash
+Face_detection_model.ipynb
+```
+
+Make sure to **mount Google Drive** if accessing datasets from there:
+
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+```
+
+## Troubleshooting
+
+- **Shape Mismatch Error:** Ensure the dataset images are resized to `(224, 224, 3)`.
+- **Missing Dataset:** Upload your dataset to the correct location before training.
+- **Webcam Issues:** Use **local execution** instead of Colab for real-time webcam detection.
+
+## Contributors
+
+- **Your Name** – [GitHub Profile](https://github.com/your-username)
+
+## License
+
+This project is licensed under the **MIT License**.
 
 
