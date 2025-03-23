@@ -1,89 +1,102 @@
 # Face Detection Model
 
-This repository contains a deep learning-based face detection model implemented using TensorFlow and Keras. The model is trained on a dataset to detect faces and predict their bounding boxes.
+## 📌 Project Overview
+This project implements a **Face Detection Model** using **TensorFlow and Keras**. The model detects faces in images and predicts bounding box coordinates along with class labels.
 
-## Features
+## 🚀 Features
+- Trains a deep learning model for face detection
+- Uses **TensorFlow, Keras, OpenCV, and NumPy**
+- Compatible with **Google Colab** (with a workaround for webcam input)
+- Supports both **real-time and pre-captured image** face detection
 
-- Uses a convolutional neural network (CNN) for face detection.
-- Detects faces in images and returns bounding box coordinates.
-- Implements real-time face detection (if running on a local system).
-- Supports training and inference on **Google Colab** and **Jupyter Notebook**.
+## 📂 Folder Structure
+```
+├── dataset/                 # Folder containing training images
+├── models/                  # Saved trained model
+├── notebooks/               # Jupyter Notebooks
+│   ├── Face_detection_model.ipynb   # Main training and testing notebook
+├── utils/                   # Utility scripts (data processing, visualization)
+├── README.md                # Project documentation
+```
 
-## Installation
-
-### 1. Clone this repository:
-
+## 🛠 Installation
+### **1️⃣ Install Dependencies**
+Ensure you have Python installed, then install required libraries:
 ```bash
-git clone https://github.com/your-username/face-detection-model.git
+pip install tensorflow keras opencv-python numpy matplotlib
+```
+
+### **2️⃣ Clone the Repository**
+```bash
+git clone https://github.com/yourusername/face-detection-model.git
 cd face-detection-model
 ```
 
-### 2. Install Dependencies
-
-After navigating into the project directory, install the required dependencies using:
-
+## 🎯 How to Use
+### **1️⃣ Train the Model**
+Run the Jupyter Notebook **Face_detection_model.ipynb** to train the model:
 ```bash
-pip install -r requirements.txt
+jupyter notebook
 ```
 
-This ensures all necessary Python libraries (TensorFlow, Keras, OpenCV, etc.) are installed.
-
-## Running the Model
-
-### A. Training the Model
-
-To train the model, run the following script:
-
-```bash
-python train.py
-```
-
-- Ensure your dataset is correctly formatted and available in the appropriate directory.
-- Modify hyperparameters in `config.py` if needed.
-
-### B. Running Inference
-
-For testing on an image, use:
-
-```bash
-python detect_faces.py --image sample.jpg
-```
-
-For real-time webcam detection (if running locally):
-
-```bash
-python detect_faces.py --webcam
-```
-
-*(Note: Webcam access is not supported on Google Colab.)*
-
-## Running on Google Colab
-
-If you are running this project on **Google Colab**, upload your dataset and execute the notebook:
-
-```bash
-Face_detection_model.ipynb
-```
-
-Make sure to **mount Google Drive** if accessing datasets from there:
-
+### **2️⃣ Capture Image for Prediction (Colab Only)**
+Since Google Colab does not support direct webcam access, use the following workaround:
 ```python
-from google.colab import drive
-drive.mount('/content/drive')
+from google.colab.output import eval_js
+from IPython.display import Javascript
+
+def capture_photo():
+    display(Javascript('''
+        async function takePhoto() {
+            const video = document.createElement('video');
+            const stream = await navigator.mediaDevices.getUserMedia({video: true});
+            video.srcObject = stream;
+            await video.play();
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            stream.getTracks().forEach(track => track.stop());
+            return canvas.toDataURL('image/jpeg', 0.8);
+        }
+        takePhoto().then(data => google.colab.kernel.invokeFunction('notebook.capture_photo', [data], {}));
+    '''))
+
+capture_photo()
 ```
 
-## Troubleshooting
+### **3️⃣ Run the Face Detection Model**
+```python
+import cv2
+import numpy as np
 
-- **Shape Mismatch Error:** Ensure the dataset images are resized to `(224, 224, 3)`.
-- **Missing Dataset:** Upload your dataset to the correct location before training.
-- **Webcam Issues:** Use **local execution** instead of Colab for real-time webcam detection.
+# Load the image and resize to match model input
+img = cv2.imread("photo.jpg")
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+resized_img = cv2.resize(img, (224, 224))  # Adjust based on your model
+resized_img = np.expand_dims(resized_img, axis=0)
 
-## Contributors
+# Run prediction
+yhat = facetracker.predict(resized_img)
+print("Model Output:", yhat)
+```
 
-- **Your Name** – [GitHub Profile](https://github.com/your-username)
+## 🛠 Troubleshooting
+- **ValueError: Input Shape Mismatch**
+  - Ensure your image input size matches the model's expected input (e.g., `(224, 224, 3)`).
+  - Resize images before passing them into the model.
 
-## License
+- **Colab Webcam Not Working**
+  - Use JavaScript workaround to capture images.
 
-This project is licensed under the **MIT License**.
+## 🤖 Technologies Used
+- **TensorFlow & Keras**: Model training and prediction
+- **OpenCV**: Image processing
+- **NumPy & Matplotlib**: Data handling and visualization
 
+## 📜 License
+This project is licensed under the MIT License.
+
+---
+💡 **Contributions & Feedback**: Feel free to fork, contribute, or report issues!
 
